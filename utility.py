@@ -1,6 +1,6 @@
 import os
 import base64
-from langchain.openai  import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers.string import StrOutputParser
 
 def format_data_for_openai(diffs, readme_content, commit_messages):
