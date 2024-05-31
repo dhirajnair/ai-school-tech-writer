@@ -38,9 +38,10 @@ def format_data_for_openai(diffs, readme_content, commit_messages):
 def call_openai(prompt):
     client = ChatOpenAI(api_key=os.getenv("OPENAI_API_KEY"), temperature=0, model_name="gpt-4o")
     try:
+        # Correct the structure of the 'messages' to match the expected format by OpenAI API
         messages = [
             {"role": "system", "content": "You are an AI trained to update README.md files based on the code changes and commit messages from a Github pull request."},
-            {"role": "user", "content": prompt},
+            {"role": "user", "content": prompt}
         ]
         response = client.invoke(input=messages)
         parser = StrOutputParser()
@@ -57,12 +58,10 @@ def update_readme_and_create_pr(repo, updated_readme, readme_sha):
     new_branch_name = f'readme-update-{commit_sha[:7]}'
     new_branch = repo.create_git_ref(ref=f'refs/heads/{new_branch_name}', sha=main_branch.commit.sha)
 
-    try:
-        repo.update_file("README.md", commit_message, updated_readme, readme_sha, branch=new_branch_name)
-        repo.create_pr(commit_sha, commit_message)
-    except Exception as e:
-        print(f"Error updating file and creating PR: {e.with_traceback}")
-        return None
+
+    repo.update_file("README.md", commit_message, updated_readme, readme_sha, branch=new_branch_name)
+    repo.create_pr(commit_sha, commit_message)
+
 
     pr_title = "AI PR: Proposed README.md update"
     pr_body = "This is the proposed update to the README.md file."
