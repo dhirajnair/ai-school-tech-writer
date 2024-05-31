@@ -2,6 +2,7 @@ import os
 import base64
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers.string import StrOutputParser
+from github import Github
 
 def format_data_for_openai(diffs, readme_content, commit_messages):
     prompt = None
@@ -55,20 +56,15 @@ def update_readme_and_create_pr(repo, updated_readme, readme_sha):
     main_branch = repo.get_branch("main")
     new_branch_name = f'readme-update-{commit_sha[:7]}'
 
-    # Create a new branch for the README updates
-    try:
-        new_branch = repo.create_git_ref(ref=f'refs/heads/{new_branch_name}', sha=main_branch.commit.sha)
-    except github.GithubException as e:
-        if e.status == 404:
-            print("Error: The specified reference does not exist.")
-        else:
-            print(f"Unhandled exception: {e}")
+    print(f"Creating branch {new_branch_name} from {main_branch.commit.sha}")
+
+    new_branch = repo.create_git_ref(ref=f'refs/heads/{new_branch_name}', sha=main_branch.commit.sha)
 
     repo.update_file("README.md", commit_message, updated_readme, readme_sha, branch=new_branch_name)
     repo.create_pr(commit_sha, commit_message)
 
     pr_title = "AI PR: Proposed README.md update"
     pr_body = "This is the proposed update to the README.md file."
-    pr = repo.create_pull(pr_title, pr_body, new_branch_name, "main")
+    pull_request = repo.create_pull(title=pr_title, body=pr_body, head=new_branch_name, base="main")
 
-    return pr
+    return pull_request
