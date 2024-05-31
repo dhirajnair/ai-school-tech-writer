@@ -55,7 +55,7 @@ def update_readme_and_create_pr(repo, updated_readme, readme_sha):
     main_branch = repo.get_branch("main")
     new_branch_name = f"readme-update-{commit_sha[:7]}"
 
-    repo.update_file(file="README.md", message=commit_message, content=updated_readme, sha=readme_sha,branch=new_branch_name)
+    repo.update_file("README.md", message=commit_message, content=updated_readme, sha=readme_sha, branch=new_branch_name)
     repo.create_pr(commit_sha, commit_message)
 
     pr_title = "AI PR: Proposed README.md update"
