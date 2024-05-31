@@ -2,7 +2,6 @@ import os
 import base64
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers.string import StrOutputParser
-from github import Github
 
 def format_data_for_openai(diffs, readme_content, commit_messages):
     prompt = None
@@ -36,7 +35,7 @@ def format_data_for_openai(diffs, readme_content, commit_messages):
     return prompt
 
 def call_openai(prompt):
-    client = ChatOpenAI(api_key=os.getenv("OPENAI_API_KEY"), temperature=0, model="gpt-4o")
+    client = ChatOpenAI(api_key=os.getenv('OPENAI_API_KEY'),model="gpt-4o")
     try:
         # Correct the structure of the 'messages' to match the expected format by OpenAI API
         messages = [
