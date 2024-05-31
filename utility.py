@@ -35,7 +35,7 @@ def format_data_for_openai(diffs, readme_content, commit_messages):
     return prompt
 
 def call_openai(prompt):
-    client = ChatOpenAI(api_key=os.env["OPENAI_API_KEY"], temperature=0, model_name="gpt-4o")
+    client = ChatOpenAI(api_key=os.getenv("OPENAI_API_KEY"), temperature=0, model_name="gpt-4o")
     try:
         messages = [
             {"role": "system", "content": "You are an AI trained to update README.md files based on the code changes and commit messages from a Github pull request."},
