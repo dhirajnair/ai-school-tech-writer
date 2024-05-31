@@ -35,12 +35,12 @@ def format_data_for_openai(diffs, readme_content, commit_messages):
     return prompt
 
 def call_openai(prompt):
-    client = ChatOpenAI(api_key=os.getenv('OPENAI_API_KEY'),model="gpt-4o")
+    client = ChatOpenAI(api_key=os.getenv('OPENAI_API_KEY'),model="gpt-3.5-turbo-0125")
     try:
         # Correct the structure of the 'messages' to match the expected format by OpenAI API
         messages = [
-            {"role": "system", "content": [{"type": "text", "text": "You are an AI trained to update README.md files based on the code changes and commit messages from a Github pull request."}]},
-            {"role": "user", "content": [{"type": "text", "text": prompt}]}
+            {"role": "system", "content": "You are an AI trained to update README.md files based on the code changes and commit messages from a Github pull request."},
+            {"role": "user", "content": prompt}
         ]
         response = client.invoke(input=messages)
         parser = StrOutputParser()
