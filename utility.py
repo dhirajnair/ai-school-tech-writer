@@ -53,11 +53,17 @@ def update_readme_and_create_pr(repo, updated_readme, readme_sha):
     commit_message = "Proposed README.md update"
     commit_sha = os.getenv("COMMIT_SHA")
     main_branch = repo.get_branch("main")
-    new_branch_name = f"readme-update-{commit_sha[:7]}"
+    new_branch_name = f'readme-update-{commit_sha[:7]}'
 
     # Create a new branch for the README updates
-    new_branch = repo.create_git_ref(ref=f"refs/heads/{new_branch_name}", sha=main_branch.commit.sha)
-    
+    try:
+        new_branch = repo.create_git_ref(ref=f'refs/heads/{new_branch_name}', sha=main_branch.commit.sha)
+    except github.GithubException as e:
+        if e.status == 404:
+            print("Error: The specified reference does not exist.")
+        else:
+            print(f"Unhandled exception: {e}")
+
     repo.update_file("README.md", commit_message, updated_readme, readme_sha, branch=new_branch_name)
     repo.create_pr(commit_sha, commit_message)
 
