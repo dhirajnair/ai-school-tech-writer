@@ -20,7 +20,7 @@ def format_data_for_openai(diffs, readme_content, commit_messages):
     readme_content = base64.b64decode(readme_content.content).decode("utf-8")
 
     # Construct the prompt with clear instructions for the LLM.
-    prompt = {
+    prompt = (
         "Please review the following code changes and commit messages from a Github pull request:\n"
         "Code Changes:\n"
         f"{changes}\n"
@@ -31,7 +31,7 @@ def format_data_for_openai(diffs, readme_content, commit_messages):
         "Consider the code changes and commit messages to update the README.md file with the necessary information, ensuring to maintain the style and clarity of the README.md.\n"
         "Ensure the README.md is formatted using markdown syntax.\n"
         "Updated README.md:\n"
-    }
+    )
 
     return prompt
 
