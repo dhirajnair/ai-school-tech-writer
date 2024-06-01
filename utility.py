@@ -1,6 +1,7 @@
 import os
 import base64
 from langchain_openai import ChatOpenAI
+from langchain.schema import HumanMessage, SystemMessage
 from langchain_core.output_parsers.string import StrOutputParser
 
 def format_data_for_openai(diffs, readme_content, commit_messages):
@@ -35,12 +36,12 @@ def format_data_for_openai(diffs, readme_content, commit_messages):
     return prompt
 
 def call_openai(prompt):
-    client = ChatOpenAI(api_key=os.getenv('OPENAI_API_KEY'),model="gpt-3.5-turbo-0125")
+    client = ChatOpenAI(api_key=os.getenv('OPENAI_API_KEY'),model="gpt-4o")
     try:
         # Correct the structure of the 'messages' to match the expected format by OpenAI API
         messages = [
-            {"role": "system", "content": "You are an AI trained to update README.md files based on the code changes and commit messages from a Github pull request."},
-            {"role": "user", "content": prompt}
+            SystemMessage(content="You are an AI trained to update README.md files based on the code changes and commit messages from a Github pull request."),
+            HumanMessage(content=prompt)
         ]
         response = client.invoke(input=messages)
         parser = StrOutputParser()
