@@ -60,8 +60,6 @@ def update_readme_and_create_pr(repo, updated_readme, readme_sha):
 
 
     repo.update_file("README.md", commit_message, updated_readme, readme_sha, branch=new_branch_name)
-    repo.create_pr(commit_sha, commit_message)
-
 
     pr_title = "AI PR: Proposed README.md update"
     pr_body = "This is the proposed update to the README.md file."
