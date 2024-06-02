@@ -135,6 +135,13 @@ def query_todo():
 
 def main():
 
+    # This section of the code determines the action to be performed based on the command line argument.
+    # It supports two actions: 'add' and 'query'.
+    # 'add' action will authenticate Gmail, retrieve emails with a specific label, split the email texts,
+    # and upload them to a Pinecone vector database using a specified embedding model.
+    # 'query' action will perform a search in the vector database to find relevant documents based on a prompt,
+    # and then use a language model to generate a summary of these documents.
+
     action = sys.argv[1] if len(sys.argv) > 1 else 'query'
 
     if action == 'add':
