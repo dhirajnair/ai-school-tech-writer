@@ -16,8 +16,25 @@ Embrace your creativity and personalize this project to craft a solution that un
 3. **Integration with Existing Tools:** Develop integrations for the agent with commonly used development tools and platforms (e.g., Confluence, Jira, Notion) to streamline workflows and increase accessibility.
 4. **Add The Features You Want**: Let your creativity shine by adding a unique feature that significantly simplifies or enhances your daily routines. Innovate with functionalities that solve problems and improve efficiency or satisfaction in meaningful ways.
 
+## Actions Overview
+The `project.py` script supports two primary actions that can be performed through command line arguments:
+
+1. **add**: 
+    - Authenticates Gmail.
+    - Retrieves emails with a specific label.
+    - Splits the email texts.
+    - Uploads the texts to a Pinecone vector database using a specified embedding model.
+
+2. **query**:
+    - Performs a search in the vector database to find relevant documents based on a prompt.
+    - Uses a language model to generate a summary of these documents.
+
+To execute an action, pass the action name as a command line argument. If no action is specified, the default action is `query`.
+
 ## Privacy and Submission Guidelines
 - **Submission Requirements:** Please submit a link to your public repo with your implementation or a loom video showcasing your work on the [BloomTech AI Platform](app.bloomtech.com). 
 - **Sensitive Information:** If your implementation involves sensitive information, you are not required to submit a public repository. Instead, a detailed review of your project through a Loom video is acceptable, where you can demonstrate the functionality and discuss the technologies used without exposing confidential data.
 
 ---
+
+This section has been added to provide clarity on the actions supported by the `project.py` script, as per the recent code changes.
